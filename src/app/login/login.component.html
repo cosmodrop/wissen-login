@@ -1,0 +1,113 @@
+<ng-container *ngIf="isLogin; else userBlock">
+    <div class="login-container">
+      <div class="logo-section">
+        <img
+          src="https://drive.google.com/uc?export=view&id=1hvRAGrdq0SqFBZApx2--IcuDf-DOmOBH"
+          alt="logo"
+          class="logo-img"
+        />
+        <h6 class="my-3">Hello there, Sign in to continue</h6>
+      </div>
+      <div class="login-panel">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" #login="ngForm">
+          <div class="form-group">
+            <label class="login-label">Email</label>
+            <input
+              type="text"
+              class="form-control form-input"
+              formControlName="email"
+            />
+            <ng-container
+              *ngIf="login.submitted && loginForm.get('email')?.errors?.required"
+            >
+              <p class="invalid-message">Please enter your Email</p>
+            </ng-container>
+            <ng-container
+              *ngIf="login.submitted && loginForm.get('email')?.errors?.minlength"
+            >
+              <p class="invalid-message">Minimum 6 characters</p>
+            </ng-container>
+          </div>
+          <div class="form-group mt-3">
+            <label class="login-label">Password</label>
+            <div class="pswd-input">
+              <input
+                [type]="passwordType"
+                class="form-control form-input"
+                formControlName="password"
+              />
+              <span (click)="showPassword()"
+              [ngClass]="{'pswd-op': passwordType === 'text'}">
+              <svg width="15px" height="15px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg>
+              </span>
+            </div>
+            <ng-container
+              *ngIf="
+                login.submitted && loginForm.get('password')?.errors?.required
+              "
+            >
+              <p class="invalid-message">Please enter your Password</p>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                login.submitted && loginForm.get('password')?.errors?.minlength
+              "
+            >
+              <p class="invalid-message">Minimum 8 characters</p>
+            </ng-container>
+            <ng-container *ngIf="isShowError">
+              <p class="invalid-message">Invalid email/password!</p>
+            </ng-container>
+            <ng-container *ngIf="isShowSuccess">
+              <p class="success-message">Successfully login!</p>
+            </ng-container>
+          </div>
+          <div class="term-section mt-3">
+            <input
+              class="term-check"
+              type="checkbox"
+              formControlName="term"
+              (change)="onCheck()"
+            />
+            <p>
+              By creating or logging into an account, you are agreeing with our
+              <span class="font-500">Terms & Conditions</span> and
+              <span class="font-500">Privacy Policies</span>.
+            </p>
+          </div>
+  
+          <button
+            type="submit"
+            class="btn btn-primary login-btn"
+            [disabled]="!isChecked"
+          >
+            Next
+          </button>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #userBlock>
+    <div class="login-container">
+      <button class="btn btn-secondary mb-2" (click)="isLogin = true">
+        back
+      </button>
+      <table class="user-table">
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Value</th>
+          <th>Year</th>
+        </tr>
+        <tr 
+          *ngFor="let item of userList" 
+          [style.background]="item.color">
+          <td><span class="table-td">{{ item.id }}</span></td> 
+          <td><span class="table-td">{{ item.name }}</span></td>
+          <td><span class="table-td">{{ item.pantone_value }}</span></td>
+          <td><span class="table-td">{{ item.year }}</span></td>
+        </tr>
+      </table>
+    </div>
+  </ng-template>
+  
